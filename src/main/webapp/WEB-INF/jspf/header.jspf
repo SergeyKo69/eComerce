@@ -1,0 +1,111 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ page isELIgnored="false" %>
+
+<header id="header" class="header2">
+    <jsp:useBean id="basket" class="ru.kogut.model.dto.BasketDTO" scope="session"/>
+    <div id="inner-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-12 logo-container">
+                    <h1 class="logo clearfix">
+                        <span>Responsive eCommerce Template</span>
+                        <a href="main" title="eCommerce"><img src="<%=request.getContextPath()%>/images/logo2.png"
+                                                              alt="E-Commerce" width="188" height="67"></a>
+                    </h1>
+                </div><!-- End .col-md-5 -->
+                <div class="col-md-7 col-sm-7 col-xs-12 header-inner-right">
+
+                    <div class="header-inner-right-wrapper clearfix">
+                        <div class="dropdown-cart-menu-container pull-right">
+                            <div class="btn-group dropdown-cart">
+                                <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown">
+                                    <span class="cart-menu-icon"></span>
+                                    ${basket.quantityPositions} позиций <span class="drop-price">-  ${basket.total}&#8381;</span>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-cart-menu pull-right clearfix" role="menu">
+                                    <p class="dropdown-cart-description">Позиции в корзине.</p>
+                                    <ul class="dropdown-cart-product-list">
+                                        <c:forEach var="addedProduct" items="${basket.productList}">
+                                            <li class="item clearfix">
+                                                <c:url value="/basket/delete" var="deleteProduct">
+                                                    <c:param name="productId" value="${addedProduct.id}"/>
+                                                    <c:param name="urlRedirect" value="${requestScope['javax.servlet.forward.request_uri']}"/>
+                                                </c:url>
+                                                <form method="POST" action="${deleteProduct}">
+                                                    <button type="submit" title="Удалить позицию" value="Удалить позицию"
+                                                            class="delete-item">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </form>
+<%--                                                <a href="#" title="Удалить позицию" class="delete-item"><i--%>
+<%--                                                        class="fa fa-times"></i></a>--%>
+                                                <figure>
+                                                    <c:url value="/catalog/product" var="showProduct">
+                                                        <c:param name="productId" value="${addedProduct.id}"/>
+                                                    </c:url>
+                                                    <a href="${showProduct}"><img
+                                                            src="<%=request.getContextPath()%>/${addedProduct.pathTitlePicture}"
+                                                            alt=${addedProduct.title}></a>
+                                                </figure>
+                                                <div class="dropdown-cart-details">
+                                                    <p class="item-name">
+                                                        <a href="${showProduct}">${addedProduct.title}</a>
+                                                    </p>
+                                                    <p>
+                                                        1x
+                                                        <span class="item-price">${addedProduct.price}</span>
+                                                    </p>
+                                                </div><!-- End .dropdown-cart-details -->
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+
+                                    <ul class="dropdown-cart-total">
+                                        <li><span class="dropdown-cart-total-title">Всего:</span>${basket.total}<span>&#8381;</span></li>
+                                    </ul><!-- .dropdown-cart-total -->
+                                    <div class="dropdown-cart-action">
+                                        <c:url value="/basket/show" var="showBasket"/>
+                                        <p><a href="${showBasket}" class="btn btn-custom-2 btn-block">В корзину</a></p>
+                                    </div><!-- End .dropdown-cart-action -->
+                                </div><!-- End .dropdown-cart -->
+                            </div><!-- End .btn-group -->
+                        </div><!-- End .dropdown-cart-menu-container -->
+                    </div><!-- End .header-inner-right-wrapper -->
+
+                </div><!-- End .col-md-7 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+
+        <div id="main-nav-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 clearfix">
+
+                        <nav id="main-nav">
+                            <div id="responsive-nav">
+                                <div id="responsive-nav-button">
+                                    Menu <span id="responsive-nav-button-icon"></span>
+                                </div><!-- responsive-nav-button -->
+                            </div>
+                            <ul class="menu clearfix">
+                                <li>
+                                    <c:url value="/main" var="main"/>
+                                    <a class="active" href="${main}">Главная</a>
+                                </li>
+                                <li>
+                                    <c:url value="/catalog/all" var="catalog"/>
+                                    <a href="${catalog}">Каталог</a>
+                                </li>
+                                <c:url value="/about" var="about"/>
+                                <li><a href="${about}">О нас</a></li>
+                            </ul>
+                        </nav>
+                    </div><!-- End .col-md-12 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+        </div><!-- End #nav -->
+    </div>
+</header>
