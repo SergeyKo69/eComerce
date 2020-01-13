@@ -11,7 +11,6 @@ public class FormatUtil {
     public static String decimalToStringByGrupping(BigDecimal value) {
         final String pattern = "###,###.##";
         final DecimalFormat formatter = new DecimalFormat(pattern);
-
         return formatter.format(value);
     }
 }
